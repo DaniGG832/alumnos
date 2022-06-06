@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCceeRequest;
 use App\Http\Requests\UpdateCceeRequest;
 use App\Models\Ccee;
+use App\Models\Nota;
+
 
 class CceeController extends Controller
 {
@@ -15,7 +17,7 @@ class CceeController extends Controller
      */
     public function index()
     {
-        //
+        return view('ccees.index',['ccees'=>Ccee::all()]);
     }
 
     /**
@@ -25,7 +27,8 @@ class CceeController extends Controller
      */
     public function create()
     {
-        //
+        return view('ccees.create',['ccee'=>new Ccee()]);
+
     }
 
     /**
@@ -36,7 +39,12 @@ class CceeController extends Controller
      */
     public function store(StoreCceeRequest $request)
     {
-        //
+        $ccee = new Ccee($request->validated());
+
+        $ccee->save();
+
+        return redirect()->route('ccees.index')->with('success','ccee creado correctamente');
+
     }
 
     /**
@@ -58,7 +66,7 @@ class CceeController extends Controller
      */
     public function edit(Ccee $ccee)
     {
-        //
+        return view('ccees.edit',compact('ccee'));
     }
 
     /**
@@ -70,7 +78,12 @@ class CceeController extends Controller
      */
     public function update(UpdateCceeRequest $request, Ccee $ccee)
     {
-        //
+        $ccee ->fill($request->validated());
+
+        $ccee->save();
+
+        return redirect()->route('ccees.index')->with('success','ccee creado correctamente');
+
     }
 
     /**
@@ -81,6 +94,13 @@ class CceeController extends Controller
      */
     public function destroy(Ccee $ccee)
     {
-        //
+        if (!Nota::all()->contains($ccee->id)) {
+            $ccee->delete();
+            return redirect()->route('ccees.index')->with('success','ccee borrado correctamente');
+        
+        }
+
+        return redirect()->route('ccees.index')->with('error','No se puede borrar un ccee con notas asociadas');
+
     }
 }

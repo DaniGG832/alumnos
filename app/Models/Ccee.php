@@ -9,6 +9,8 @@ class Ccee extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['ce','descripcion'];
+
     public function notas()
     {
         # code...

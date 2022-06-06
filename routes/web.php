@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\CceeController;
+use App\Http\Controllers\NotaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+/* 
+parameters
+
+Route::resource("niveles", "NivelesController")->parameters(["niveles"=>"nivel"]); 
+*/
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,3 +37,7 @@ require __DIR__.'/auth.php';
 
 
 Route::resource('alumnos',AlumnoController::class)->middleware(['auth']);
+
+Route::resource('ccees',CceeController::class)->middleware(['auth']);
+
+Route::resource('notas',NotaController::class)->middleware(['auth']);

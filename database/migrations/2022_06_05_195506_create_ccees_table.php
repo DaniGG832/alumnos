@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('ccees', function (Blueprint $table) {
             $table->id();
-            $table->string('ce');
+            $table->string('ce')->unique();
             $table->string('descripcion');
             $table->timestamps();
         });

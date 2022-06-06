@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAlumnoRequest;
 use App\Http\Requests\UpdateAlumnoRequest;
 use App\Models\Alumno;
+use App\Models\Nota;
 
 class AlumnoController extends Controller
 {
@@ -16,8 +17,11 @@ class AlumnoController extends Controller
     public function index()
     {
 
-        return view('alumnos.index',['alumnos'=>Alumno::all()]);
+        $alumnos= (Alumno::withAvg('notas','nota')->get());
+
         
+        return view('alumnos.index',['alumnos'=>$alumnos]);
+
     }
 
     /**
@@ -27,7 +31,7 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        //
+        return view('alumnos.create',['alumno'=> new alumno]);
     }
 
     /**
@@ -38,7 +42,14 @@ class AlumnoController extends Controller
      */
     public function store(StoreAlumnoRequest $request)
     {
-        //
+        $alumno = new Alumno($request->validated());
+
+        //$alumno->fill($request->validated());
+
+        $alumno->save();
+
+        return redirect()->route('alumnos.index')->with('success','alumno creado correctamente');
+
     }
 
     /**
@@ -49,7 +60,7 @@ class AlumnoController extends Controller
      */
     public function show(Alumno $alumno)
     {
-        //
+        return view('alumnos.show',compact('alumno'));
     }
 
     /**
@@ -60,7 +71,8 @@ class AlumnoController extends Controller
      */
     public function edit(Alumno $alumno)
     {
-        //
+        return view('alumnos.edit', compact('alumno'));
+
     }
 
     /**
@@ -72,7 +84,14 @@ class AlumnoController extends Controller
      */
     public function update(UpdateAlumnoRequest $request, Alumno $alumno)
     {
-        //
+
+        //dd($request->validated());
+
+        $alumno->fill($request->validated());
+
+        $alumno->save();
+
+        return redirect()->route('alumnos.index')->with('success','alumno editado correctamente');
     }
 
     /**
@@ -83,6 +102,16 @@ class AlumnoController extends Controller
      */
     public function destroy(Alumno $alumno)
     {
-        //
+
+        //dd(Nota::all()->contains('alumno_id',$alumno->id));
+
+        if (!Nota::all()->contains($alumno->id)) {
+            $alumno->delete();
+            return redirect()->route('alumnos.index')->with('success','alumno borrado correctamente');
+        
+        }
+
+        return redirect()->route('alumnos.index')->with('error','No se puede borrar un alumno con notas asociadas');
+
     }
 }

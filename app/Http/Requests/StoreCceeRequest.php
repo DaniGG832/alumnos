@@ -13,7 +13,7 @@ class StoreCceeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreCceeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'ce'=>'required',
+            'descripcion'=>'required'
         ];
     }
 }
