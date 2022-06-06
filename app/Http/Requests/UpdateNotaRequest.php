@@ -13,7 +13,7 @@ class UpdateNotaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateNotaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'alumno_id'=>'required|numeric',
+            'ccee_id'=>'required|numeric',
+            'nota'=>'required|numeric|min:0|max:10'
         ];
     }
 }

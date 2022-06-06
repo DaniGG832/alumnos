@@ -55,7 +55,8 @@ class CceeController extends Controller
      */
     public function show(Ccee $ccee)
     {
-        //
+        return view('ccees.show',compact('ccee'));
+
     }
 
     /**

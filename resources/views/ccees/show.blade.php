@@ -13,25 +13,31 @@
             <a href="{{ route('ccees.index') }}">
               <button
                 class="mt-5 py-1 px-4 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                Volver Alunos index</button>
+                Volver ccees index</button>
             </a>
           </div>
           
 
           <x-session/>
+          
           <h1> 
             ccee : 
-          {{ucfirst($ccee->nombre)}}
+          {{ucfirst($ccee->ce)}}
+            
+          </h1>
+          <h1> 
+            descripción : 
+          {{ucfirst($ccee->descripcion)}}
             
           </h1>
           
 <br>
-          <p>Notas</p>
+          <p>alumnos examinados</p>
     <br>
           <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             @forelse ($ccee->notas as $nota)
             <li class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">
-              {{$nota->ccee->descripcion}} : 
+              {{$nota->alumno->nombre}} : 
               {{$nota->nota}}
               
             </li>
@@ -41,9 +47,9 @@
           </ul>
 
         </div>
+        <p>nota Media asignatura: {{round( $ccee->notas->avg('nota'),2)}}</p>
 
         <br>
-        <p>Agregar notas al usuario</p>
         
         
       </div>
