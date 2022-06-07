@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAlumnoRequest;
 use App\Http\Requests\UpdateAlumnoRequest;
 use App\Models\Alumno;
+use App\Models\Ccee;
 use App\Models\Nota;
+use Illuminate\Support\Facades\Auth;
+
 
 class AlumnoController extends Controller
 {
@@ -17,6 +20,19 @@ class AlumnoController extends Controller
     public function index()
     {
 
+        /*  $notas = Nota::all();
+
+        $notasDiff =$notas ->where('alumno_id','<>',2);
+
+        return $notasDiff; 
+        
+        $notasDiff =Nota::where('alumno_id','<>',4)->get();
+        */
+        
+        
+              
+        
+        //return(Auth::user()->name);
         $alumnos= (Alumno::withAvg('notas','nota')->get());
 
         
@@ -60,7 +76,16 @@ class AlumnoController extends Controller
      */
     public function show(Alumno $alumno)
     {
-        return view('alumnos.show',compact('alumno'));
+
+        //$notasDiff =Nota::where('alumno_id','<>',$alumno->id)->get();
+
+        //$notasDiff =Nota::sincalificar($alumno)->get();
+
+        $ccees = Ccee::all();
+
+
+        //return($notasDiff);
+        return view('alumnos.show',compact(['alumno','ccees']));
     }
 
     /**

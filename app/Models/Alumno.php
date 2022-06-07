@@ -16,4 +16,6 @@ class Alumno extends Model
         # code...
         return $this->hasMany(Nota::class);
     }
+
+    
 }

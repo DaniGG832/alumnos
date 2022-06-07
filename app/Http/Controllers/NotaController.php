@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNotaRequest;
 use App\Http\Requests\UpdateNotaRequest;
+use App\Models\Alumno;
 use App\Models\Nota;
 
 class NotaController extends Controller
@@ -34,9 +35,9 @@ class NotaController extends Controller
      * @param  \App\Http\Requests\StoreNotaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreNotaRequest $request)
+    public function store(StoreNotaRequest $request, Alumno $alumno)
     {
-        //
+        dd(25);
     }
 
     /**

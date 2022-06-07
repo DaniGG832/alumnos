@@ -22,4 +22,9 @@ class Nota extends Model
         return $this->belongsTo(Ccee::class);
         
     }
+
+    public function scopeSincalificar($query, $alumno)
+    {
+        return $query->where('alumno_id', '<>', $alumno->id);
+    }
 }

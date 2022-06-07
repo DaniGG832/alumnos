@@ -24,7 +24,7 @@ class StoreNotaRequest extends FormRequest
     public function rules()
     {
         return [
-            'alumno_id'=>'required|numeric',
+            /* 'alumno_id'=>'required|numeric', */
             'ccee_id'=>'required|numeric',
             'nota'=>'required|numeric|min:0|max:10'
         ];

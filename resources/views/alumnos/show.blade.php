@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      {{ __('Clientes') }}
+      {{ __('Alumnos') }}
     </h2>
   </x-slot>
 
@@ -45,6 +45,46 @@
         <br>
         <p>Agregar notas al Alumno</p>
         
+        <form action="{{ route('alumnos.nota', $alumno, true) }}" method="post">
+        
+          @csrf
+          
+          @method('post')
+  
+          <label for="nota">nota</label>
+            
+            <input type="number" step="0.01" name="nota" id="nota" autofocus value="{{ old('nota') }}">
+            @error('nota')
+              <p class="text-red-500 text-sm mt-1">
+                {{ $message }}
+              </p>
+            @enderror
+            <br>
+
+            <label for="ccee_id">Asignatura por calificar</label>
+            <select name="ccee_id" id="ccee_id">
+
+              <option value=""></option>
+              @foreach ($ccees as $ccee)
+
+
+              <option value="{{$ccee->id}}">{{$ccee->descripcion}}</option>
+                  
+              @endforeach
+
+            </select>
+
+
+
+            <br>
+
+          
+            <br>
+
+            <button type="submit">Enviar</button>
+
+        
+        </form>
         
       </div>
     </div>
