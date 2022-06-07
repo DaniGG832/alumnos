@@ -42,4 +42,4 @@ Route::resource('ccees',CceeController::class)->middleware(['auth']);
 
 Route::resource('notas',NotaController::class)->middleware(['auth']);
 
-Route::post('alumnos/addnota',[NotaController::class,'store'])->middleware(['auth'])->name('alumnos.nota');
+Route::put('alumnos/{alumno}/addnota',[NotaController::class,'store'])->middleware(['auth'])->name('alumnos.nota');

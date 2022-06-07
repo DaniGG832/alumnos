@@ -23,8 +23,10 @@ class Nota extends Model
         
     }
 
+    // no funciona como esperaba (devuelve todas las filas donde no este el alumno )
     public function scopeSincalificar($query, $alumno)
     {
         return $query->where('alumno_id', '<>', $alumno->id);
     }
+    
 }

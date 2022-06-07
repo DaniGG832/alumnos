@@ -7,7 +7,9 @@ use App\Http\Requests\UpdateAlumnoRequest;
 use App\Models\Alumno;
 use App\Models\Ccee;
 use App\Models\Nota;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\Cast\Array_;
 
 
 class AlumnoController extends Controller
@@ -83,6 +85,8 @@ class AlumnoController extends Controller
 
         $ccees = Ccee::all();
 
+        
+        
 
         //return($notasDiff);
         return view('alumnos.show',compact(['alumno','ccees']));

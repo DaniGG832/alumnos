@@ -37,7 +37,37 @@ class NotaController extends Controller
      */
     public function store(StoreNotaRequest $request, Alumno $alumno)
     {
-        dd(25);
+        dump($request);
+        dump($alumno);
+
+
+    //dd ($alumno->notas->contains('ccee_id',$request->ccee_id));
+
+        if ($alumno->notas->contains('ccee_id',$request->ccee_id)) {
+            
+            return back()->with('error','El alumno ta tiene la nota correspondiente');
+            //return true;
+        }else{
+            
+            $nota = new Nota();
+    
+            $nota->alumno_id = $alumno->id;
+            $nota->ccee_id = $request->ccee_id;
+            $nota->nota = $request->nota;
+    
+            //return $nota;
+            $nota->save();
+
+            return back()->with('success','nota añadida correctamente');
+
+            //return false;
+
+        }
+
+
+
+        return redirect()->route('alumnos.index')->with('success','nota añadida correctamente');
+
     }
 
     /**

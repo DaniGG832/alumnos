@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      {{ __('Alumnos') }}
+      {{ __('Alumno') }}
     </h2>
   </x-slot>
 
@@ -12,12 +12,14 @@
           <div class="flex justify-center">
             <a href="{{ route('alumnos.index') }}">
               <button
-                class="mt-5 py-1 px-4 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                Volver Alumnos index</button>
+              class="mt-5 py-1 px-4 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">
+              Volver Alumnos index</button>
             </a>
           </div>
           
-
+          
+          @dump($ccees)
+        
           <x-session/>
           <h1> 
             Alumno : 
@@ -49,7 +51,7 @@
         
           @csrf
           
-          @method('post')
+          @method('PUT')
   
           <label for="nota">nota</label>
             
@@ -67,14 +69,20 @@
               <option value=""></option>
               @foreach ($ccees as $ccee)
 
-
+              @if (!$alumno->notas->contains('ccee_id',$ccee->id))
+              
               <option value="{{$ccee->id}}">{{$ccee->descripcion}}</option>
+              @endif
                   
               @endforeach
 
             </select>
 
-
+            @error('ccee_id')
+            <p class="text-red-500 text-sm mt-1">
+              {{ $message }}
+            </p>
+          @enderror
 
             <br>
 
