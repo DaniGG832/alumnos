@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCceeRequest;
 use App\Http\Requests\UpdateCceeRequest;
+use App\Models\Alumno;
 use App\Models\Ccee;
 use App\Models\Nota;
 
@@ -55,6 +56,15 @@ class CceeController extends Controller
      */
     public function show(Ccee $ccee)
     {
+
+        //Alumno::
+
+        return $ccee->withmax('notas','nota')->get();
+
+        $notaMasAlta = $ccee->notas->max('nota');
+
+        return $notaMasAlta;
+
         return view('ccees.show',compact('ccee'));
 
     }

@@ -9,11 +9,16 @@ use App\Models\Ccee;
 use App\Models\Nota;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\AssignOp\Concat;
 use PhpParser\Node\Expr\Cast\Array_;
 
 
 class AlumnoController extends Controller
 {
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -30,16 +35,15 @@ class AlumnoController extends Controller
         
         $notasDiff =Nota::where('alumno_id','<>',4)->get();
         */
-        
-        
-              
-        
+
+
+
+
         //return(Auth::user()->name);
-        $alumnos= (Alumno::withAvg('notas','nota')->get());
+        $alumnos = (Alumno::withAvg('notas', 'nota')->get());
 
-        
-        return view('alumnos.index',['alumnos'=>$alumnos]);
 
+        return view('alumnos.index', ['alumnos' => $alumnos]);
     }
 
     /**
@@ -49,7 +53,7 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        return view('alumnos.create',['alumno'=> new alumno]);
+        return view('alumnos.create', ['alumno' => new alumno]);
     }
 
     /**
@@ -66,8 +70,7 @@ class AlumnoController extends Controller
 
         $alumno->save();
 
-        return redirect()->route('alumnos.index')->with('success','alumno creado correctamente');
-
+        return redirect()->route('alumnos.index')->with('success', 'alumno creado correctamente');
     }
 
     /**
@@ -83,13 +86,56 @@ class AlumnoController extends Controller
 
         //$notasDiff =Nota::sincalificar($alumno)->get();
 
-        $ccees = Ccee::all();
+        $cceesSelect = Ccee::all();
+
+        //$alumnos = Alumno::All();
+        //$notasaltas = Ccee::where($alumno);
+
+        //$alumnoynota= Nota::orderBy('nota', 'desc')->get();    
+        /* ->where('receiver_id',$alumno->id)
+        ->orderBy('created_at', 'desc')
+        ->groupBy('ccee_id')
+        ->get(); */
+
+        //$alumnoynota->groupBy('ccee_id');
+        //$alumnoynota =$alumno->with('notas')->orderBy('id','desc')-> get();
+
+        $ccees = Nota::orderBy('nota', 'desc')->get();
+
+        $cceemasalto = $ccees->where('alumno_id', $alumno->id)->groupBy('ccee_id');
+
+
+        ($cceemasalto);
 
         
-        
+        $coleccionNotasMasAltas = collect();
+
+
+        foreach ($cceemasalto as  $notamasalta) {
+            //dump($notamasalta->first());
+
+            $coleccionNotasMasAltas = $coleccionNotasMasAltas->concat([$notamasalta->first()]);
+        }
+
+        $mediaNotasMasAltas = round($coleccionNotasMasAltas->avg('nota'),2);
+        //return $coleccionNotasMasAltas->avg('nota');
+        //return $cceemasalto;
 
         //return($notasDiff);
-        return view('alumnos.show',compact(['alumno','ccees']));
+        return view(
+            'alumnos.show',
+            compact([
+
+                'alumno', 
+                'ccees', 
+                'cceemasalto', 
+                'coleccionNotasMasAltas', 
+                'mediaNotasMasAltas',
+                'cceesSelect'
+
+
+            ])
+        );
     }
 
     /**
@@ -101,7 +147,6 @@ class AlumnoController extends Controller
     public function edit(Alumno $alumno)
     {
         return view('alumnos.edit', compact('alumno'));
-
     }
 
     /**
@@ -120,7 +165,7 @@ class AlumnoController extends Controller
 
         $alumno->save();
 
-        return redirect()->route('alumnos.index')->with('success','alumno editado correctamente');
+        return redirect()->route('alumnos.index')->with('success', 'alumno editado correctamente');
     }
 
     /**
@@ -136,11 +181,9 @@ class AlumnoController extends Controller
 
         if (!Nota::all()->contains($alumno->id)) {
             $alumno->delete();
-            return redirect()->route('alumnos.index')->with('success','alumno borrado correctamente');
-        
+            return redirect()->route('alumnos.index')->with('success', 'alumno borrado correctamente');
         }
 
-        return redirect()->route('alumnos.index')->with('error','No se puede borrar un alumno con notas asociadas');
-
+        return redirect()->route('alumnos.index')->with('error', 'No se puede borrar un alumno con notas asociadas');
     }
 }

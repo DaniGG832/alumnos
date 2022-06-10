@@ -18,7 +18,7 @@
           </div>
           
           
-          @dump($ccees)
+        {{--   @dump($ccees) --}}
         
           <x-session/>
           <h1> 
@@ -28,13 +28,24 @@
           </h1>
           
 <br>
-          <p>Notas</p>
+          <p>Notas mas altas por criterio evaluacion</p>
     <br>
           <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            @forelse ($alumno->notas as $nota)
+            @forelse ($cceemasalto as $nota)
             <li class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">
-              {{$nota->ccee->descripcion}} : 
-              {{$nota->nota}}
+              {{-- <a class="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900" 
+              href="{{ route('alumnos.nota', $alumno, true) }}">-- Modificar nota--</a>
+ --}}<br>
+
+              
+<br>
+          <p>  nota mas alta de: </p>
+            {{$nota->first()->ccee->descripcion}} : 
+              {{$nota[0]->nota}} 
+              <br>
+              <br>
+              nota media del criterio = {{round( $nota->avg('nota'),2)}}
+
               
             </li>
               @empty
@@ -42,16 +53,24 @@
             @endforelse
           </ul>
 
+          <p>
+            
+            Nota media de las notas mas altas de cada criterio:
+            {{$mediaNotasMasAltas}}
+          </p>
+
+          
+
         </div>
 
         <br>
         <p>Agregar notas al Alumno</p>
         
-        <form action="{{ route('alumnos.nota', $alumno, true) }}" method="post">
+        <form action="{{ route('alumnos.store', $alumno, true) }}" method="post">
         
           @csrf
           
-          @method('PUT')
+          @method('post')
   
           <label for="nota">nota</label>
             
@@ -67,12 +86,12 @@
             <select name="ccee_id" id="ccee_id">
 
               <option value=""></option>
-              @foreach ($ccees as $ccee)
+              @foreach ($cceesSelect as $ccee)
 
-              @if (!$alumno->notas->contains('ccee_id',$ccee->id))
+              {{-- @if (!$alumno->notas->contains('ccee_id',$ccee->id)) --}}
               
               <option value="{{$ccee->id}}">{{$ccee->descripcion}}</option>
-              @endif
+            {{--   @endif --}}
                   
               @endforeach
 

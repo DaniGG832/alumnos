@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('alumno_id')->constrained('alumnos');
             $table->foreignId('ccee_id')->constrained('ccees');
-            $table->unique(['alumno_id','ccee_id']);
+            /* $table->unique(['alumno_id','ccee_id']); */
             $table->decimal('nota',4,2);
             $table->timestamps();
         });

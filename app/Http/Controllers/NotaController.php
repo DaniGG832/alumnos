@@ -37,15 +37,15 @@ class NotaController extends Controller
      */
     public function store(StoreNotaRequest $request, Alumno $alumno)
     {
-        dump($request);
-        dump($alumno);
+        /* dump($request);
+        dd($alumno); */
 
 
-    //dd ($alumno->notas->contains('ccee_id',$request->ccee_id));
+        //dd ($alumno->notas->contains('ccee_id',$request->ccee_id));
 
-        if ($alumno->notas->contains('ccee_id',$request->ccee_id)) {
+        /* if ($alumno->notas->contains('ccee_id',$request->ccee_id)) {
             
-            return back()->with('error','El alumno ta tiene la nota correspondiente');
+            return back()->with('error','El alumno ya tiene la nota correspondiente');
             //return true;
         }else{
             
@@ -62,12 +62,22 @@ class NotaController extends Controller
 
             //return false;
 
-        }
+        } */
 
 
+        $nota = new Nota();
 
-        return redirect()->route('alumnos.index')->with('success','nota añadida correctamente');
+        $nota->alumno_id = $alumno->id;
+        $nota->ccee_id = $request->ccee_id;
+        $nota->nota = $request->nota;
 
+        //return $nota;
+        $nota->save();
+        
+        return back()->with('success','nota añadida correctamente');
+
+
+        //return redirect()->route('alumnos.index')->with('success', 'nota añadida correctamente');
     }
 
     /**
@@ -89,7 +99,7 @@ class NotaController extends Controller
      */
     public function edit(Nota $nota)
     {
-        //
+        return 'notas edit';
     }
 
     /**

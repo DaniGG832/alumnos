@@ -40,6 +40,10 @@ Route::resource('alumnos',AlumnoController::class)->middleware(['auth']);
 
 Route::resource('ccees',CceeController::class)->middleware(['auth']);
 
-Route::resource('notas',NotaController::class)->middleware(['auth']);
 
-Route::put('alumnos/{alumno}/addnota',[NotaController::class,'store'])->middleware(['auth'])->name('alumnos.nota');
+Route::post('alumnos/{alumno}/addnota',[NotaController::class,'store'])->middleware(['auth'])->name('alumnos.store');
+
+Route::get('alumnos/{alumno}/edit',[NotaController::class,'edit'])->middleware(['auth'])->name('alumnos.edit');
+Route::put('alumnos/{alumno}/addnota',[NotaController::class,'update'])->middleware(['auth'])->name('alumnos.addnota');
+
+Route::resource('notas',NotaController::class)->middleware(['auth']);
