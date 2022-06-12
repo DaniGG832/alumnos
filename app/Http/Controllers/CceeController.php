@@ -18,6 +18,8 @@ class CceeController extends Controller
      */
     public function index()
     {
+
+        
         return view('ccees.index',['ccees'=>Ccee::all()]);
     }
 
@@ -59,13 +61,25 @@ class CceeController extends Controller
 
         //Alumno::
 
-        return $ccee->withmax('notas','nota')->get();
+        $notas = $ccee->notas;
+
+        $groupNotas = $notas->groupBy('alumno_id');
+        
+        
+        //return $groupNota;
+        
+        //return $ccee->withmax('notas','nota')->get();
 
         $notaMasAlta = $ccee->notas->max('nota');
 
-        return $notaMasAlta;
+        $notaMedia = 0;
 
-        return view('ccees.show',compact('ccee'));
+        
+        
+
+        //return $notaMasAlta;
+
+        return view('ccees.show',compact('ccee','notaMasAlta','groupNotas'));
 
     }
 

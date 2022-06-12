@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\CceeController;
 use App\Http\Controllers\NotaController;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,14 +37,33 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('alumnos',AlumnoController::class)->middleware(['auth']);
 
-Route::resource('ccees',CceeController::class)->middleware(['auth']);
+Route::resource('alumnos',AlumnoController::class)->middleware(['auth','can:solo-admin']);
 
 
-Route::post('alumnos/{alumno}/addnota',[NotaController::class,'store'])->middleware(['auth'])->name('alumnos.store');
 
-Route::get('alumnos/{alumno}/edit',[NotaController::class,'edit'])->middleware(['auth'])->name('alumnos.edit');
-Route::put('alumnos/{alumno}/addnota',[NotaController::class,'update'])->middleware(['auth'])->name('alumnos.addnota');
+Route::middleware(['auth'])->group(function () {
+    
+    //Route::resource('alumnos',AlumnoController::class);
+    
+    
+    
+    Route::resource('ccees',CceeController::class);
+    
+    
+    Route::post('alumnos/{alumno}/addnota',[NotaController::class,'store'])->name('alumnos.store');
+    
+    Route::get('alumnos/{alumno}/edit',[NotaController::class,'edit'])->name('alumnos.edit');
+    Route::put('alumnos/{alumno}/addnota',[NotaController::class,'update'])->name('alumnos.addnota');
+    
+    Route::resource('notas',NotaController::class);
 
-Route::resource('notas',NotaController::class)->middleware(['auth']);
+
+
+
+
+
+
+
+
+});

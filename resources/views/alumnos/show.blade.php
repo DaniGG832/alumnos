@@ -18,17 +18,26 @@
           </div>
           
           
-        {{--   @dump($ccees) --}}
-        
+          {{--   @dump($ccees) --}}
+          
           <x-session/>
           <h1> 
             Alumno : 
-          {{ucfirst($alumno->nombre)}}
+            {{ucfirst($alumno->nombre)}}
             
           </h1>
+          <br>
+
+          <p class="underline underline-offset-2">
+            
+            Nota Asignatura (media de las notas mas altas de cada criterio):
+            <strong class="text-xl ">
+              {{$mediaNotasMasAltas}}
+              </strong>
+          </p>
           
 <br>
-          <p>Notas mas altas por criterio evaluacion</p>
+          <p class="underline underline-offset-2">Notas mas altas por criterio evaluacion</p>
     <br>
           <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             @forelse ($cceemasalto as $nota)
@@ -53,11 +62,6 @@
             @endforelse
           </ul>
 
-          <p>
-            
-            Nota media de las notas mas altas de cada criterio:
-            {{$mediaNotasMasAltas}}
-          </p>
 
           
 
@@ -74,7 +78,7 @@
   
           <label for="nota">nota</label>
             
-            <input type="number" step="0.01" name="nota" id="nota" autofocus value="{{ old('nota') }}">
+            <input type="number" step="0.01" name="nota" id="nota"  value="{{ old('nota') }}">
             @error('nota')
               <p class="text-red-500 text-sm mt-1">
                 {{ $message }}

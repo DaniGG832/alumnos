@@ -31,14 +31,21 @@
             
           </h1>
           
+          <p>nota mas alta : {{$notaMasAlta}}</p>
 <br>
-          <p>alumnos examinados</p>
+          <p>alumnos examinados (nota mas alta)</p>
     <br>
           <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            @forelse ($ccee->notas as $nota)
+            @forelse ($groupNotas as $notaAlta)
             <li class="w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">
-              {{$nota->alumno->nombre}} : 
-              {{$nota->nota}}
+            
+              {{$notaAlta[0]->alumno->nombre}} -->
+
+              {{$notaAlta->max('nota')}}
+
+            
+              {{-- {{$nota->alumno->nombre}} : 
+              {{$nota->nota}} --}}
               
             </li>
               @empty
@@ -46,10 +53,10 @@
             @endforelse
           </ul>
 
-        </div>
-        <p>nota Media asignatura: {{round( $ccee->notas->avg('nota'),2)}}</p>
+        {{-- </div>
+        <p>nota Media asignatura : {{round( $ccee->notas->avg('nota'),2)}}</p>
 
-        <br>
+        <br> --}}
         
         
       </div>
